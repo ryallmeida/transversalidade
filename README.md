@@ -1,4 +1,4 @@
-# transversalidade
+# TRANSVERSALIDADE
 Um breve estudo sobre a Transversalidade
 
 # REFERÊNCIAS 
