@@ -5,7 +5,6 @@
 ### CODADO ORIGINALMENTE EM R VERSÃO 4.4.1
 ### INÍCIO 11-02-25
 
-library(corrplot)
 # ===================================================================================
 # MODELO DE REGRESSÃO LINEAR
 # ===================================================================================
@@ -26,14 +25,10 @@ modelo <- lm(formula, data, subset, weights, na.action,
 # ===================================================================================
 # ANÁLISE DE CORRELAÇÃO 
 # ===================================================================================
-
 #IDENTIFICANTO OUTLIERS
 
 bloxplot.stats(bancodedados$variavelindependente)$out
 
-
-# ===================================================================================
-# EXERCÍCIO
 # ===================================================================================
 # UPANDO BANDO DE DADOS E RASPAGEM 
 # ===================================================================================
@@ -52,6 +47,7 @@ cats <- cats[,-4]
 
 print(cats)
 #R2 MENOR QUE 50% DEVE-SE PROCURAR OUTRAS VARIAVEIS
+library(corrplot)
 
 # ===================================================================================
 # MANUPULANDO 
@@ -68,6 +64,6 @@ pca <- prcomp(X, center = T, scale. = T)
 
 model <- lm(y ~ .)
 #variavel respota tamnaho do corpo variavel explicativa sexo e tamanho do coração 
-analis descritiva sumarry, plo blox plot
-analise de correlação 
+#analis descritiva sumarry, plo blox plot
+#analise de correlação 
 
