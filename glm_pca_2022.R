@@ -57,8 +57,6 @@ summary(IEGM_2021)
 # ANÁLISE DE CORRELAÇÃO
 # ===================================================================================
 
-corrplot::corrplot(Zscore_2022)
-
 # ALTERNATIVA AO CORRPLOT, DEVIDO OS DADOS DO ZSCORE NÃO ESTAREM ENTRE -1 E 1 
 library(corrgram)
 corrgram(Zscore_2022)
@@ -100,9 +98,69 @@ X_pca_df_2022 <- as.data.frame(X_pca_2022)
 # CONSTRUIR O MODELO DE REGRESSÃO USANDO OS COMPENTENTES PRINCIPAIS
 model_pca_2022 <- lm(Zscore_2022$IEGM_taxa_2021 ~ -1 + PC1 + PC2 + PC3 + PC4, data = X_pca_df_2022)
 
+#  --------------------------------------------------
 summary(model_pca_2022)
-
+#  --------------------------------------------------
 # POR ALGUM MOTIVO O MODELO COM ESSA FUNÇÃO, O R^2 DEU 1, E COMO SABEMOS ISSO NAS CIÊNCIAS SOCIAIS APLICADAS É PRATICAMENTE IMPOSSÍVEL 
 
+# ===================================================================================
+# SCRIPT::ANALISE DO MODELO DE REGRESSAO PROPRIAMENTE DITA
+# ===================================================================================
+ 
+# NOTAS -----------------------------------------------------------------------------
+# HOUVE A NECESSIDADE DE CRIAR UMA MATRIZ PARA CALCULAR DE FORMA AUTOMATIZADA
+# O QUANTO A VARIAVEL AFETA A VARIÁVEL DEPENDENTE  
+# IDEIA PRINCIPAL: 4 COLUNAS REPRESENTANDO OS COMPONENTES PRINCIPAIS E 17 OBS. REPRESENTANDO AS 17 VARIÁVEIS
+
+# CODIGO ABAIXO PARA A CONSTRUÇÃO DA MATRIZ, PARA A ANALISE FINAL
+pca_2022_1 <- prcomp(Zscore_2022, center = TRUE, scale. = TRUE)
+print(pca_2022_1)
+
+# COPIANDO DA AREA DE TRANSFERENCIA O QUE EU ISOLEI
+pesos_pca_colada <- read.table("clipboard", header = T)
+print(pesos_pca_colada)
+
+matriz_pesos_pca_2022 <- as.matrix(pesos_pca_colada)
+print(matriz_pesos_pca_2022)
+
 #  --------------------------------------------------
 #  --------------------------------------------------
+
+# BETAS 1, 2, 3 E 4 (RESPECTIVAMENTE)
+betas <- c(0.49, -0.32, 0.05, -0.07)  
+
+# MULTIPLICANDO OS BETAS PELOS PESOS DOS COMPONENTES PRINCIPAIS
+# OU SEJA, CALCULA A COMBINAÇÃO LINEAR PARA CADA VARIÁVEL
+
+resultado <- matriz_pesos_pca_2022[, 1:4] %*% betas  
+
+#  --------------------------------------------------
+# DATAFRAME PARA O RESULTADO
+modelo2022_resultado <- data.frame(Variavel = rownames(matriz_pesos_pca_2022), Resultado = round(resultado, 4))
+
+#  --------------------------------------------------
+print(modelo2022_resultado)
+#  --------------------------------------------------
+
+# ===================================================================================
+# OOUTPUT::ANALISE
+# ===================================================================================
+
+
+# Taxa_Criminalidade_2022               Taxa_Criminalidade_2022    0.0351
+# Densidade_Demografica_2022         Densidade_Demografica_2022   -0.0039
+# IDH_Municipal_2022                         IDH_Municipal_2022   -0.0262
+# Taxa_Analfabetismo_2022               Taxa_Analfabetismo_2022   -0.0617
+# IDEB_Municipal_2022                       IDEB_Municipal_2022    0.0099
+# Numero_Vitimas_CVLI_2022             Numero_Vitimas_CVLI_2022   -0.0244
+# Taxa_Mortalidade_Infantil_2022 Taxa_Mortalidade_Infantil_2022   -0.0338
+# Gasto_Publico_2022                         Gasto_Publico_2022   -0.0345
+# IEGM_taxa_2021                                 IEGM_taxa_2021    0.3557
+# i-Plan_taxa_2021                             i-Plan_taxa_2021    0.1810
+# i-Saúde_taxa_2021                           i-Saúde_taxa_2021    0.2094
+# i-GovTI_taxa_2021                           i-GovTI_taxa_2021    0.1374
+# i-Fiscal_taxa_2021                         i-Fiscal_taxa_2021    0.1638
+# i-Educ_taxa_2021                             i-Educ_taxa_2021    0.2392
+# i-Cidade_taxa_2021                         i-Cidade_taxa_2021    0.0708
+# i-Amb_taxa_2021                               i-Amb_taxa_2021    0.1730
+# Domicilios_cRede_Esgoto_2022     Domicilios_cRede_Esgoto_2022   -0.0089
