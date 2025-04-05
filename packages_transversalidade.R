@@ -54,6 +54,7 @@ if(!require(psych))
   install.packages("psych")  
 library(psych)  
 
+# PARA TRATAMENTO E MANIPULAÇÃO DOS DADOS 
 if(!require(dplyr))
   install.packages("dplyr") 
 library(dplyr)
