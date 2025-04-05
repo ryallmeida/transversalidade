@@ -19,7 +19,7 @@ set.seed(123)
 # JULIA EVELYN
 # LARISSA KARLA
 # RYAN ALMEIDA
-# MIGUEL SIQUEIRA
+# MIGUEL
 
 # ===================================================================================
 # PACOTES 
@@ -462,5 +462,3 @@ ggplot(Zscore_2019, aes(x = IEGM_Taxa_2019, y = preditos)) +
        y = "Índice de Efetividade da Gestão Municipal (PE) 
        (Predito)") +
   theme_minimal()
-
-

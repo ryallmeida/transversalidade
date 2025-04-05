@@ -20,7 +20,7 @@ set.seed(123)
 # JULIA EVELYN
 # LARISSA KARLA
 # RYAN ALMEIDA
-# MIGUEL SIQUEIRA
+# MIGUEL
 
 # ===================================================================================
 # PACOTES 
@@ -94,8 +94,8 @@ Dados_Zscore_2022 <- Dados_Zscore_2022[, !colnames(Dados_Zscore_2022) %in% "TAXA
 
 dplyr::glimpse(Dados_Zscore_2022)
 Dados_Zscore_2022$
-
-summary(Dados_Zscore_2022)
+  
+  summary(Dados_Zscore_2022)
 view(Dados_Zscore_2022)
 
 # TRATANDO NAs POR IMPUTAÇÃO DE MEDIANA 
@@ -228,9 +228,9 @@ model_pca_2022 <- lm(Zscore_2022$IEGM_taxa_2021 ~ .,
                      data = X_pca_df_2022)
 
 summary(model_pca_2022)
- 
+
 model2_pca_2022 <- lm(Zscore_2022$IEGM_taxa_2021 ~ -1 + PC1 + PC2 + PC3 + PC4, 
-                     data = X_pca_df_2022)
+                      data = X_pca_df_2022)
 
 #  --------------------------------------------------
 summary(model2_pca_2022)
@@ -303,7 +303,7 @@ print(matriz_pesos_pca_2022)
 #  --------------------------------------------------
 
 # BETAS 1, 2, 3 E 4 (RESPECTIVAMENTE)
- 
+
 betas_2022 <- c(-0.01564622, 0.58872948, -0.07264423, -0.07524914)  
 
 

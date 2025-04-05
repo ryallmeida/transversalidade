@@ -107,5 +107,8 @@ Dados_Zscore_2022_3 <- Dados_Zscore_2022_ %>%
 
 # -----------------------------------------
 
+<<<<<<< HEAD
 system("git clone https://github.com/ryallmeida/transversalidade.git")
+=======
+>>>>>>> 7e219bf4c70a21386428cce5bb91352c5e640d0f
 

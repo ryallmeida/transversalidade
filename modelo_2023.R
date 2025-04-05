@@ -19,7 +19,6 @@ set.seed(123)
 # JULIA EVELYN
 # LARISSA KARLA
 # RYAN ALMEIDA
-# MIGUEL SIQUEIRA
 
 # ===================================================================================
 # PACOTES 
