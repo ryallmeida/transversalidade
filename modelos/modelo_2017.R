@@ -59,7 +59,7 @@ if(!require(pacman))
 install.packages("pacman")  
 library(pacman)
 
-pacman::p_load(corrplot, readxl, tidyverse, corrgram, GGally, openxlsx, ggrepel, tidyr)
+pacman::p_load(corrplot, dplyr, readxl, tidyverse, corrgram, GGally, openxlsx, ggrepel, tidyr)
 
 # -----------------------------------------
 

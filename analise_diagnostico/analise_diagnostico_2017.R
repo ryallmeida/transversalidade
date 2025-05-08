@@ -156,6 +156,7 @@ print(residuos_padronizados)
 # ===================================================================================
 
 modelo <- model1_pca_2017
+library(ggrepel)
 
 #OBTER RESIUDOS E VALORES AJUSTADOS
 residuos <- residuals(modelo)
@@ -196,6 +197,7 @@ dados_grafico <- data.frame(
 # ===================================================================================
 # GRÁFICO 1: Resíduos vs. Valores Ajustados
 # ===================================================================================
+library(ggplot2)
 p1 <- ggplot(dados_grafico, aes(x = Fitted, y = Residuos)) +
   geom_point(alpha = 0.7, color = "blue") +
   geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
@@ -355,6 +357,7 @@ print(num_components)
 
 #  --------------------------------------------------
 #  --------------------------------------------------
+
 # ISOLANDO VARIAVEL DEPENDENTE
 y <- dados$IEGM_taxa
 
@@ -370,10 +373,13 @@ modelo_data2017 <- as.data.frame(cbind(y, X_pca_2017))
 model1_pca_2017 <- lm(modelo_data2017$y ~ -1 + PC1 + PC2 + PC3, data = modelo_data2017)
 summary(model1_pca_2017)
 
-
 # ===================================================================================
 # CONSTRUIR O MODELO DE REGRESSÃO USANDO OS COMPENTENTES PRINCIPAIS
 # ===================================================================================
-model1_pca_2017 <- lm(Zscore_2017$IEGM_taxa ~ ., 
-                      data = X_pca_df_2017)
+model1_pca_2017 <- lm(Zscore_2017$IEGM_taxa ~ ., data = X_pca_df_2017)
 summary(model1_pca_2017)
+
+par(mfrow=c(2,2))
+plot(model1_pca_2017)
+par(mfrow=c(1,1))
+
