@@ -589,6 +589,7 @@ print(combined_plot)
 # DEVIDO A DIFICIL VISUALIZAÇÃO NO R, ENCONTRA-SE A SOLUÇÃO ABAIXO
 
 
+
 #SALVANDO O ARQUIVO EM PNG DIRETO NO COMPUTADOR
 ggsave("combined_plot_transversalidade(2).png", 
        combined_plot, 
