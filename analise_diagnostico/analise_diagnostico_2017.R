@@ -263,3 +263,117 @@ library(patchwork)
 combined_plot <- p1 + p2 + p3 + p4 + plot_layout(ncol = 2)
 print(combined_plot)
 
+par(mfrow=c(2,2))
+plot(model1_pca_2017)
+par(mfrow=c(1,1))
+
+plot(model1_pca_2017)
+
+
+# ===================================================================================
+# ANALISE DE DIAGNOSTICOS, PONTOS DE ALAVANCA A PARTIR DE TESTES ESTATISTICOS
+# ===================================================================================
+
+# ANALISE DOS PONTOS DE ALAVANCAGEM
+# ---------------------------------------------
+# FUNÇÃO PARA CALCULAR A ALAVANCA 
+
+calcular_alavanca <- function(modelo) {
+  X <- model.matrix(modelo)
+  H <- X %*% solve(t(X) %*% X) %*% t(X)
+  alavanca <- diag(H)
+  return(alavanca)
+}
+
+alavanca <- calcular_alavanca(modelo)
+
+# IDENTIFICANDO OS PONTOS DE ALAVANCA, USANDO O CRÍTÉRIO DE 2 VEZES A MÉDIA DA ALAVANCA
+pontos_alavanca <- which(alavanca > 2 * mean(alavanca))  
+# EXIBINDO...
+print("Índices dos Pontos de Alavanca:")
+print(pontos_alavanca)
+# BUSCANDO QUEM SÃO...
+observacao <- c(1,  31,  37,  45,  73, 105, 115, 119, 140 )
+observacoes_selecionadas <- Dados_Zscore_2017[observacao, ]
+print(observacoes_selecionadas)
+# CONSTRUINOD MODELO SEM OS PONTOS DE ALAVANCA 
+
+# ===================================================================================
+# TRATANDO A INFLUÊNCIA DE PONTOS INFLUENTES (DISTÂNCIA DE COOK)
+# ===================================================================================
+# AJUSTAR O MODELO SEM PONTOS INFLUENTES 
+
+dados_sem_influentes <- Zscore_2017[-pontos_influentes, ]
+
+#DESCOBRINDO QUEM SÃO OS PONTOS INFLUENTES...
+observacao <- c(1, 8, 13, 31, 45, 74, 88, 89, 105, 137, 140)
+observacoes_selecionadas <- Dados_Zscore_2017[observacao, ]
+print(observacoes_selecionadas)
+
+# ===================================================================================
+# DESCOBRINDO INTERSECÇÃO ENTRE PONTOS INFLUENTES E DE ALAVANCA
+# ===================================================================================
+
+observação <- c(1, 31, 45, 105, 140) 
+observacoes_selecionadas <- Dados_Zscore_2017[observacao, ]
+print(observacoes_selecionadas)
+
+#PONTOS DE ALAVACAGEM E INFLUENCIA SÃO AS CIDADES: ABREU E LIMA (RMR), CALUMBI, CARNAIBA, CUPIRA, ITAQUITINGA, PAULISTA (RMR), RIACHO DAS ALMAS, SALGUEIRO E TABIRA
+
+# ===================================================================================
+# CONSTRUINDO MODELO SEM ALAVANCA E PONTOS DE INFLUENCIA
+# ===================================================================================
+
+# UPLOAD DE DADOS PADRONIZADO
+Zscore_2017 <- read_excel("C://Users//Notebook//Desktop//R//TRABALHOFINAL//Zscore_PropriamenteDito/Zscore_2017.xlsx")
+glimpse(Zscore_2017)
+
+Zscore_2017 <- Zscore_2017[, !colnames(Zscore_2017) %in% "Numero_CVLI_2017"]
+Zscore_2017 <- Zscore_2017[, !colnames(Zscore_2017) %in% "Nascidos_Vivos_2010"]
+Zscore_2017 <- Zscore_2017[, !colnames(Zscore_2017) %in% "Obitos_Infantis_2010"]
+Zscore_2017 <- Zscore_2017[, !colnames(Zscore_2017) %in% "GASTO_PUBLICO_2017"]
+Zscore_2017 <- Zscore_2017[, !colnames(Zscore_2017) %in% "Densidade_Demografica_2010"]
+
+dados <- Zscore_2017[-observação, ]
+
+# ===================================================================================
+# CONSTRUINDO O PCA
+# ===================================================================================
+
+SEM_VD <- dados[, !colnames(dados) %in% "IEGM_taxa"]
+
+pca_2017 <- prcomp(SEM_VD, center = TRUE, scale. = TRUE)
+summary(pca_2017)
+
+# EXTRAI APENAS A VARIÂNCIA ACUMULADA
+explained_variance <- summary(pca_2017)$importance[3, ] 
+print(explained_variance)
+
+# NUMERO MINIMO DE COMPONENTES PRINCIPAIS NECESSÁRIOS PARA EXPLICAR 95% DA VARIÂNCIA DOS DADOS 
+num_components <- which(cumsum(explained_variance) >= 0.95)[1]
+print(num_components)
+
+#  --------------------------------------------------
+#  --------------------------------------------------
+# ISOLANDO VARIAVEL DEPENDENTE
+y <- dados$IEGM_taxa
+
+# ISOLANDOS VARIAVEIS INDEPENDENTES (X) COM PCA
+X_pca_2017 <- pca_2017$x[, 1:num_components]
+
+# CRIAR UM DATAFRAME COM OS COMPOMPONENTES PRINCIPAIS PARA USAR NO MODELO 
+# OU SEJA, DEVE-SE ISOLÁ-LOS
+modelo_data2017 <- as.data.frame(cbind(y, X_pca_2017))
+
+# CONSTRUIR O MODELO DE REGRESSÃO USANDO OS COMPENTENTES PRINCIPAIS
+
+model1_pca_2017 <- lm(modelo_data2017$y ~ -1 + PC1 + PC2 + PC3, data = modelo_data2017)
+summary(model1_pca_2017)
+
+
+# ===================================================================================
+# CONSTRUIR O MODELO DE REGRESSÃO USANDO OS COMPENTENTES PRINCIPAIS
+# ===================================================================================
+model1_pca_2017 <- lm(Zscore_2017$IEGM_taxa ~ ., 
+                      data = X_pca_df_2017)
+summary(model1_pca_2017)
