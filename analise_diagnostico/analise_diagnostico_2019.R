@@ -149,42 +149,22 @@ print(residuos_padronizados)
 # ANALISE DE DIAGNOSTICOS, OS RESIDUOS A PARTIR DE GRÁFICOS
 # ===================================================================================
 
-modelo <- model1_pca_2019
+modelo2 <- model1_pca_2019
 library(ggrepel)
 
-#OBTER RESIUDOS E VALORES AJUSTADOS
-residuos <- residuals(modelo)
-fitted_values <- fitted(modelo)
-std_residuos <- residuos_padronizados
-cooks_dist <- cooks.distance(modelo)
-
-# CRIA UMA BASE DE DADOS PARA OS GRÁFICOS, COM AS INFORMAÇÕES OBTIDAS A PARTIR DO MODELO ESTIMADO
-
-dados_grafico <- data.frame(
-  Fitted = fitted_values,
-  Residuos = residuos,
-  StdResiduos = std_residuos,
-  CooksDist = cooks_dist,
-  Index = 1:length(cooks_dist)
-)
-
-# TÁ DANDO ERRO O CODIGO ACIMA
-
-modelo <- model2_pca_2017
-
 # Obter resíduos, valores ajustados e resíduos padronizados
-residuos <- residuals(modelo)
-fitted_values <- fitted(modelo)
-std_residuos <- rstandard(modelo)
-cooks_dist <- cooks.distance(modelo)
+residuos2 <- residuals(modelo2)
+fitted_values2 <- fitted(modelo2)
+std_residuos2 <- rstandard(modelo2)
+cooks_dist2 <- cooks.distance(modelo2)
 
 # Criar base de dados para os gráficos
-dados_grafico <- data.frame(
-  Fitted = fitted_values,
-  Residuos = residuos,
-  StdResiduos = std_residuos,
-  CooksDist = cooks_dist,
-  Index = 1:length(cooks_dist)
+dados_grafico2 <- data.frame(
+  Fitted = fitted_values2,
+  Residuos = residuos2,
+  StdResiduos = std_residuos2,
+  CooksDist = cooks_dist2,
+  Index = 1:length(cooks_dist2)
 )
 
 # AGORA DEU CERTO
@@ -192,7 +172,7 @@ dados_grafico <- data.frame(
 # GRÁFICO 1: Resíduos vs. Valores Ajustados
 # ===================================================================================
 library(ggplot2)
-p1 <- ggplot(dados_grafico, aes(x = Fitted, y = Residuos)) +
+p1.2 <- ggplot(dados_grafico2, aes(x = Fitted, y = Residuos)) +
   geom_point(alpha = 0.7, color = "blue", shape = 1,
              size = 2) +
   geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
@@ -205,7 +185,7 @@ p1 <- ggplot(dados_grafico, aes(x = Fitted, y = Residuos)) +
 # ===================================================================================
 # GRÁFICO 2: QQ-Plot dos resíduos
 # ===================================================================================
-p2 <- ggplot(dados_grafico, aes(sample = Residuos)) +
+p2.2 <- ggplot(dados_grafico, aes(sample = Residuos)) +
   stat_qq() +
   stat_qq_line(color = "red") +
   labs(title = "Gráfico QQ dos Resíduos", x = "Quantis Teóricos", y = "Quantis Amostrais") +
@@ -217,7 +197,7 @@ p2 <- ggplot(dados_grafico, aes(sample = Residuos)) +
 # ===================================================================================
 # GRÁFICO 3: Histograma dos resíduos padronizados
 # ===================================================================================
-p3 <- ggplot(dados_grafico, aes(x = StdResiduos)) +
+p3.2 <- ggplot(dados_grafico, aes(x = StdResiduos)) +
   geom_histogram(bins = 20, fill = "lightblue", color = "black", alpha = 0.7) +
   labs(title = "Hist. Resíduos Padronizados", x = "Resíduos Padronizados", y = "Frequência") +
   theme_minimal() +
@@ -228,20 +208,20 @@ p3 <- ggplot(dados_grafico, aes(x = StdResiduos)) +
 # ===================================================================================
 # GRÁFICO 4: Distância de Cook
 # ===================================================================================
-limite_influencia <- 4 / length(fitted(modelo))
-pontos_influentes <- which(cooks_dist > limite_influencia)
+limite_influencia2 <- 4 / length(fitted(modelo2))
+pontos_influentes2 <- which(cooks_dist2 > limite_influencia2)
 
-dados_diag <- data.frame(
-  Index = 1:length(cooks_dist),
-  CooksDist = cooks_dist
+dados_diag2 <- data.frame(
+  Index = 1:length(cooks_dist2),
+  CooksDist = cooks_dist2
 )
-dados_acima <- dados_diag[pontos_influentes, ]
+dados_acima2 <- dados_diag2[pontos_influentes2, ]
 
-p4 <- ggplot(dados_diag, aes(x = Index, y = CooksDist)) +
+p4.2 <- ggplot(dados_diag2, aes(x = Index, y = CooksDist)) +
   geom_point(alpha = 0.7, color = "blue", shape = 1,
              size = 2) +
-  geom_point(data = dados_acima, aes(x = Index, y = CooksDist), color = "red", size = 2, shape = 1, size = 2) +
-  geom_text_repel(data = dados_acima, aes(label = Index), 
+  geom_point(data = dados_acima2, aes(x = Index, y = CooksDist), color = "red", size = 2, shape = 1, size = 2) +
+  geom_text_repel(data = dados_acima2, aes(label = Index), 
                   size = 3, box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50') +
   labs(title = "Distância de Cook", x = "Observações", y = "Distância de Cook") +
   theme_minimal() +
@@ -256,8 +236,8 @@ p4 <- ggplot(dados_diag, aes(x = Index, y = CooksDist)) +
 # Combinar os gráficos em uma única figura
 
 library(patchwork)
-combined_plot <- p1 + p2 + p3 + p4 + plot_layout(ncol = 2)
-print(combined_plot)
+combined_plot.2 <- p1.2 + p2.2 + p3.2 + p4.2 + plot_layout(ncol = 2)
+print(combined_plot.2)
 
 ggplot2::ggsave("residuos_modelo_2019.png", combined_plot, width = 10, height = 8)
 
