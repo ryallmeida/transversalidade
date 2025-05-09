@@ -22,6 +22,13 @@ set.seed(123)
 # RYAN ALMEIDA
 # MIGUEL
 
+# CARREGAR TODAS AS BIBLIOTECAS DE UMA VEZ
+if(!require(pacman))
+  install.packages("pacman")  
+library(pacman)
+
+pacman::p_load(corrplot, dplyr, readxl, tidyverse, corrgram, GGally, openxlsx, ggrepel, tidyr, ggplot2)
+
 # CARREGANDO... 
 Dados_Zscore_2017 <- read_excel("C://Users//Notebook//Desktop//R//TRABALHOFINAL//DadosZscore//Dados_Zscore_2017.xlsx")
 
@@ -199,7 +206,8 @@ dados_grafico <- data.frame(
 # ===================================================================================
 library(ggplot2)
 p1 <- ggplot(dados_grafico, aes(x = Fitted, y = Residuos)) +
-  geom_point(alpha = 0.7, color = "blue") +
+  geom_point(alpha = 0.7, color = "blue", shape = 1,
+             size = 2) +
   geom_hline(yintercept = 0, color = "red", linetype = "dashed") +
   labs(title = "Resíduos vs. Valores Ajustados", x = "Valores Ajustados", y = "Resíduos") +
   theme_minimal() +
@@ -217,7 +225,7 @@ p2 <- ggplot(dados_grafico, aes(sample = Residuos)) +
   theme_minimal() +
   theme(axis.text = element_text(size = 10),
         axis.title = element_text(size = 10),
-        title = element_text(size = 10))
+        title = element_text(size = 10)) 
 
 # ===================================================================================
 # GRÁFICO 3: Histograma dos resíduos padronizados
@@ -243,8 +251,9 @@ dados_diag <- data.frame(
 dados_acima <- dados_diag[pontos_influentes, ]
 
 p4 <- ggplot(dados_diag, aes(x = Index, y = CooksDist)) +
-  geom_point(alpha = 0.7, color = "blue") +
-  geom_point(data = dados_acima, aes(x = Index, y = CooksDist), color = "red", size = 2) +
+  geom_point(alpha = 0.7, color = "blue", shape = 1,
+             size = 2) +
+  geom_point(data = dados_acima, aes(x = Index, y = CooksDist), color = "red", size = 2, shape = 1, size = 2) +
   geom_text_repel(data = dados_acima, aes(label = Index), 
                   size = 3, box.padding = 0.5, point.padding = 0.5, segment.color = 'grey50') +
   labs(title = "Distância de Cook", x = "Observações", y = "Distância de Cook") +
