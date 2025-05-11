@@ -369,5 +369,6 @@ print(modelo2023_resultado)
 #IDEB_Municipal_2022                       IDEB_Municipal_2022    0.0053
 
 
-
+# Rodar o teste de Durbin-Watson
+dwtest(model1_pca_2023)
 

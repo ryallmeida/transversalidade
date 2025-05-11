@@ -357,3 +357,11 @@ print(modelo2019_resultado)
 #TAXA_MORTALIDADE_INFANTIL_2010 TAXA_MORTALIDADE_INFANTIL_2010    0.0886
 #TAXA_URBANIZAÇÃO_2010                   TAXA_URBANIZAÇÃO_2010    0.0098
 #IDEB_PE_2010                                     IDEB_PE_2010    0.0575
+
+# Suponha que seu modelo se chama modelo_ajustado
+# Instale o pacote, se necessário
+install.packages("lmtest")  # só precisa rodar uma vez
+library(lmtest)
+
+# Rodar o teste de Durbin-Watson
+dwtest(model1_pca_2019)

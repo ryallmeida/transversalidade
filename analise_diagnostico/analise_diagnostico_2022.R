@@ -394,6 +394,9 @@ print(modelo2022_resultado)
 #TAXA_URBANIZAÇÃO_2010                   TAXA_URBANIZAÇÃO_2010   -0.0772
 #GINI_2010                                           GINI_2010    0.0205
 
+# Rodar o teste de Durbin-Watson
+dwtest(model1_pca_2022)
+
 
 
 
