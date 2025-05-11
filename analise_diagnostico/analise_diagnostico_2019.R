@@ -290,3 +290,70 @@ plot.pred_obs_2019 <- ggplot(Zscore_2019, aes(x = IEGM_Taxa_2019, y = preditos))
 ggplot2::ggsave("plot.pred_obs_2019(1).png", plot.pred_obs_2019, width = 10, height = 8)
 
 print(plot.pred_obs_2019)
+
+#  --------------------------------------------------
+# ===================================================================================
+# SCRIPT::ANALISE DO MODELO DE REGRESSÃO PROPRIAMENTE DITA
+# ===================================================================================
+
+#  --------------------------------------------------
+# OUTPUT --------------------------------------------
+
+summary(model1_pca_2019)$coefficients
+
+#  --------------------------------------------------
+#       Estimate Std. Error   t value     Pr(>|t|)
+# PC1 -0.2567638 0.01626141 -15.78977 6.146969e-36
+# PC2  0.5632547 0.01870593  30.11102 1.316332e-72
+# PC4 -0.3497427 0.02271931 -15.39407 8.717731e-35
+#  --------------------------------------------------
+
+Zscore_2019_1 <- Zscore_2019[, !colnames(Zscore_2019) %in% "preditos"]
+Zscore_2019_2 <- Zscore_2019_1[, !colnames(Zscore_2019_1) %in% "IEGM_Taxa_2019"]
+
+# CODIGO ABAIXO PARA A CONSTRUÇÃO DA MATRIZ, PARA A ANALISE FINAL
+pca_2019_1 <- prcomp(Zscore_2019_2, center = TRUE, scale. = TRUE)
+print(pca_2019_1)
+
+# COPIANDO DA AREA DE TRANSFERENCIA O QUE EU ISOLEI
+pesos_pca_colada_2019 <- read.table("clipboard", header = T)
+print(pesos_pca_colada_2019)
+
+
+colnames(pesos_pca_colada_2019)
+pesos_pca_colada_2019 <- pesos_pca_colada_2019[, !colnames(pesos_pca_colada_2019) %in% "PC3"]
+
+print(pesos_pca_colada_2019)
+
+matriz_pesos_pca_2019 <- as.matrix(pesos_pca_colada_2019)
+print(matriz_pesos_pca_2019)
+
+#  --------------------------------------------------
+#  --------------------------------------------------
+
+# BETAS 1, 2 E 4, RESPECTIVAMENTE 
+betas_2019 <- c(-0.2567638, 0.5632547, -0.3497427)
+resultado <- matriz_pesos_pca_2019[, 1:3] %*% betas_2019
+
+modelo2019_resultado <- data.frame(Variavel = rownames(matriz_pesos_pca_2019), Resultado = round(resultado, 4))
+
+#  --------------------------------------------------
+print(modelo2019_resultado)
+#  --------------------------------------------------
+
+#Variavel Resultado
+#i.Plan_taxa_2019                             i.Plan_taxa_2019    0.3131
+#i.Saúde_taxa_2019                           i.Saúde_taxa_2019    0.2254
+#i.GovTI_taxa_2019'                         i.GovTI_taxa_2019'    0.2103
+#i.Fiscal_taxa_2019                         i.Fiscal_taxa_2019    0.2782
+#i.Educ_taxa_2019                             i.Educ_taxa_2019    0.3314
+#i.Cidade_taxa_2019                         i.Cidade_taxa_2019    0.0399
+#i.Amb_taxa_2019                               i.Amb_taxa_2019    0.2639
+#TAXA_CRIMINALIDADE_2019               TAXA_CRIMINALIDADE_2019   -0.1325
+#IDHM_PE_2010                                     IDHM_PE_2010   -0.0239
+#GINI_2010                                           GINI_2010   -0.1173
+#TAXA_ANALFABETISMO_2010               TAXA_ANALFABETISMO_2010    0.0054
+#TAXA_DESEMPREGO_2010                     TAXA_DESEMPREGO_2010    0.1041
+#TAXA_MORTALIDADE_INFANTIL_2010 TAXA_MORTALIDADE_INFANTIL_2010    0.0886
+#TAXA_URBANIZAÇÃO_2010                   TAXA_URBANIZAÇÃO_2010    0.0098
+#IDEB_PE_2010                                     IDEB_PE_2010    0.0575

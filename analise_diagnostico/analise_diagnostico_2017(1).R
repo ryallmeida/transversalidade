@@ -249,8 +249,8 @@ r2_texto_2017 <- paste0("R² Ajustado = ", round(r2_ajustado_2017, 3))
 
 # Plotar gráfico com equação e R²
 plot.pred_obs_2017 <- ggplot(Zscore_2017, aes(x = IEGM_taxa, y = preditos)) +
-  geom_smooth(method = "lm", color = "mediumpurple", se = FALSE) +
-  geom_point(size = 2, shape = 1, color = "mediumpurple") +
+  geom_smooth(method = "lm", color = "#228B22", se = FALSE) +
+  geom_point(size = 2, shape = 1, color = "#228B22") +
   geom_abline(slope = 1, intercept = 0, color = "black", linetype = "dashed") +
   annotate("text",
            x = min(Zscore_2017$IEGM_taxa),
@@ -269,16 +269,88 @@ plot.pred_obs_2017 <- ggplot(Zscore_2017, aes(x = IEGM_taxa, y = preditos)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 # Salvar e exibir o gráfico
-ggplot2::ggsave("plot.pred_obs_2017.png", plot.pred_obs_2017, width = 10, height = 8)
+# ggplot2::ggsave("plot.pred_obs_2017.png", plot.pred_obs_2017, width = 10, height = 8)
 
 print(plot.pred_obs_2017)
 
+######################################### AO ADICIONAR OUTRA VARIAVEL O INTERCEPTO DEUXOU DE SER SIGNIFICANTE, LOGO A PARTE ABAIXO DEVE SER IGNORADA
+# DEVIDO O INTERCEPTO TER DADO SIGNIFICATIVO NESSE MODELO TIVE QUE ALTERAR A ESTRUTURA DO CODIGO DESSE MODELO DE REGRESSAÕ EM ESPECIFICO 
+
+# Vetor de betas (incluindo o intercepto beta_0)
+betas_2017 <- c(0.526070270, 0.005201111, -0.032964844, -0.008034567)  
+
+# Multiplicação da matriz de pesos dos três primeiros componentes principais pelos betas correspondentes
+y_predito <- matriz_pesos_pca_2017[, 1:3] %*% betas_2017[2:4]  
+
+# Adiciona o intercepto (beta_0) a todos os valores previstos
+y_predito <- y_predito + betas_2017[1]
+
+# Exibir o resultado
+y_predito
+
+#  --------------------------------------------------
+# ===================================================================================
+# SCRIPT::ANALISE DO MODELO DE REGRESSÃO PROPRIAMENTE DITA
+# ===================================================================================
+
+#  --------------------------------------------------
+# OUTPUT --------------------------------------------
+
+summary(model1_pca_2017)$coefficients
+
+#  --------------------------------------------------
+#       Estimate Std. Error   t value     Pr(>|t|)
+#PC1 -0.22503256 0.02646901 -8.501738 6.635253e-15
+#PC2  0.58249453 0.03183531 18.297120 4.165162e-43
+#PC3  0.06976401 0.03365600  2.072855 3.959479e-02
+#  --------------------------------------------------
+
+Zscore_2017_1 <- Zscore_2017[, !colnames(Zscore_2017) %in% "preditos"]
+Zscore_2017_2 <- Zscore_2017_1[, !colnames(Zscore_2017_1) %in% "IEGM_taxa"]
+
+# CODIGO ABAIXO PARA A CONSTRUÇÃO DA MATRIZ, PARA A ANALISE FINAL
+pca_2017_1 <- prcomp(Zscore_2017_2, center = TRUE, scale. = TRUE)
+print(pca_2017_1)
+
+# COPIANDO DA AREA DE TRANSFERENCIA O QUE EU ISOLEI
+pesos_pca_colada_2017 <- read.table("clipboard", header = T)
+print(pesos_pca_colada_2017)
 
 
+colnames(pesos_pca_colada_2017)
+pesos_pca_colada_2017 <- pesos_pca_colada_2017[, !colnames(pesos_pca_colada_2017) %in% "PC4"]
 
+print(pesos_pca_colada_2017)
 
+matriz_pesos_pca_2017 <- as.matrix(pesos_pca_colada_2017)
+print(matriz_pesos_pca_2023)
 
+#  --------------------------------------------------
+#  --------------------------------------------------
 
+# BETAS 1, 2 E 3, RESPECTIVAMENTE 
+betas_2017 <- c(-0.22503256, 0.58249453, 0.06976401)
+resultado <- matriz_pesos_pca_2017[, 1:3] %*% betas_2017
 
+modelo2017_resultado <- data.frame(Variavel = rownames(matriz_pesos_pca_2017), Resultado = round(resultado, 4))
 
+#  --------------------------------------------------
+print(modelo2017_resultado)
+#  --------------------------------------------------
 
+#Variavel Resultado
+#i.Amb                                                   i.Amb    0.2756
+#i.Cidade                                             i.Cidade    0.2885
+#i.Educ                                                 i.Educ    0.2114
+#i.Fiscal                                             i.Fiscal    0.0012
+#i.GovTI                                               i.GovTI    0.3210
+#i.Saúde                                               i.Saúde    0.1633
+#i.Plan                                                 i.Plan    0.1617
+#Taxa_Criminalidade_2017               Taxa_Criminalidade_2017   -0.0191
+#IDHM_2010                                           IDHM_2010    0.0247
+#GINI_2010                                           GINI_2010    0.0802
+#Taxa_Analfabetismo_2010               Taxa_Analfabetismo_2010   -0.0159
+#Taxa_Desemprego_2010                     Taxa_Desemprego_2010    0.0518
+#Taxa_Mortalidade_Infantil_2010 Taxa_Mortalidade_Infantil_2010   -0.1456
+#Taxa_Urbanização_2010                   Taxa_Urbanização_2010    0.0598
+#IDEB_PE_2010                                     IDEB_PE_2010    0.0032

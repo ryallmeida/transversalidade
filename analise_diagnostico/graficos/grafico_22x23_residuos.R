@@ -147,4 +147,69 @@ print(combined_plot2)
 
 ggplot2::ggsave("COMPARACAO_22x23(1).png", combined_plot2, width = 10, height = 8)
 
+library(ggplot2)
 
+# 1. Gerar os valores preditos
+X_pca_df_2022 <- as.data.frame(X_pca_2022)
+Zscore_2022$preditos <- predict(model1_pca_2022, newdata = X_pca_df_2022)
+Zscore_2022$Ano <- "2022"
+Zscore_2022$IEGM_Obs <- Zscore_2022$IEGM_taxa_2021
+
+X_pca_df_2023 <- as.data.frame(X_pca_2023)
+Zscore_2023$preditos <- predict(model1_pca_2023, newdata = X_pca_df_2023)
+Zscore_2023$Ano <- "2023"
+Zscore_2023$IEGM_Obs <- Zscore_2023$IEGM_taxa_2023
+
+# 2. Unir os dataframes
+dados_comparativos_2 <- rbind(Zscore_2022[, c("IEGM_Obs", "preditos", "Ano")],
+                              Zscore_2023[, c("IEGM_Obs", "preditos", "Ano")])
+
+# 3. Ajustar modelos
+modelo_ajuste_2022 <- lm(preditos ~ IEGM_Obs, data = subset(dados_comparativos_2, Ano == "2022"))
+modelo_ajuste_2023 <- lm(preditos ~ IEGM_Obs, data = subset(dados_comparativos_2, Ano == "2023"))
+
+# 4. Equações e R²
+coef_2022 <- coef(modelo_ajuste_2022)
+r2_2022 <- summary(modelo_ajuste_2022)$adj.r.squared
+texto_eq_2022 <- paste0("2022: y = ", round(coef_2022[2], 3), "x + ", round(coef_2022[1], 3),
+                        "\nR² = ", round(r2_2022, 3))
+
+coef_2023 <- coef(modelo_ajuste_2023)
+r2_2023 <- summary(modelo_ajuste_2023)$adj.r.squared
+texto_eq_2023 <- paste0("2023: y = ", round(coef_2023[2], 3), "x + ", round(coef_2023[1], 3),
+                        "\nR² = ", round(r2_2023, 3))
+
+# 5. Gráfico sobreposto
+grafico_sobreposto_2 <- ggplot(dados_comparativos_2, aes(x = IEGM_Obs, y = preditos)) +
+  geom_point(data = subset(dados_comparativos_2, Ano == "2022"),
+             color = "#FBC02D", size = 2, shape = 1) +
+  geom_smooth(data = subset(dados_comparativos_2, Ano == "2022"),
+              method = "lm", se = FALSE, color = "#FBC02D") +
+  geom_point(data = subset(dados_comparativos_2, Ano == "2023"),
+             color = "#B22222", size = 2, shape = 1) +
+  geom_smooth(data = subset(dados_comparativos_2, Ano == "2023"),
+              method = "lm", se = FALSE, color = "#B22222") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black") +
+  annotate("text",
+           x = min(dados_comparativos_2$IEGM_Obs),
+           y = max(dados_comparativos_2$preditos),
+           label = texto_eq_2022,
+           hjust = 0, size = 4, color = "#FBC02D") +
+  annotate("text",
+           x = min(dados_comparativos_2$IEGM_Obs),
+           y = max(dados_comparativos_2$preditos) * 0.85,
+           label = texto_eq_2023,
+           hjust = 0, size = 4, color = "#B22222") +
+  labs(title = "Modelos 2022 e 2023 sobrepostos",
+       x = "IEGM (Observado)",
+       y = "IEGM (Predito)") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# 6. Exibir e salvar
+print(grafico_sobreposto_2)
+ggsave("grafico_sobreposto_modelos_2022_2023.png", grafico_sobreposto_2, width = 10, height = 8)
+
+library(patchwork)
+combined_plot5 <- grafico_sobreposto1 + grafico_sobreposto_2 + plot_layout(ncol = 2)
+print(combined_plot5)

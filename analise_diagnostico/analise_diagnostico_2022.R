@@ -328,8 +328,71 @@ ggplot2::ggsave("plot.pred_obs_2022.png", plot.pred_obs_2022, width = 10, height
 
 print(plot.pred_obs_2022)
 
+#  --------------------------------------------------
+# ===================================================================================
+# SCRIPT::ANALISE DO MODELO DE REGRESSÃO PROPRIAMENTE DITA
+# ===================================================================================
 
+#  --------------------------------------------------
+# OUTPUT --------------------------------------------
 
+summary(model1_pca_2022)$coefficients
+
+#  --------------------------------------------------
+#      Estimate Std. Error   t value     Pr(>|t|)
+#PC1 -0.2773879 0.01717750 -16.14832 6.533405e-37
+#PC2 -0.5624944 0.01757299 -32.00903 1.901748e-76
+#PC3  0.2871662 0.01982365  14.48604 4.456561e-32
+#PC4 -0.2138834 0.02121614 -10.08116 2.986419e-19
+#  --------------------------------------------------
+
+Zscore_2022_1 <- Zscore_2022[, !colnames(Zscore_2022) %in% "preditos"]
+Zscore_2022_2 <- Zscore_2022_1[, !colnames(Zscore_2022_1) %in% "IEGM_taxa_2021"]
+
+# CODIGO ABAIXO PARA A CONSTRUÇÃO DA MATRIZ, PARA A ANALISE FINAL
+pca_2022_1 <- prcomp(Zscore_2022_2, center = TRUE, scale. = TRUE)
+print(pca_2022_1)
+
+# COPIANDO DA AREA DE TRANSFERENCIA O QUE EU ISOLEI
+pesos_pca_colada_2022 <- read.table("clipboard", header = T)
+print(pesos_pca_colada_2022)
+
+# NÃO REMOVER NEMNHUM PC VISTO QUE OS 4 PRIMEROS DERAM SIGNIFICANTES 
+
+print(pesos_pca_colada_2022)
+
+matriz_pesos_pca_2022 <- as.matrix(pesos_pca_colada_2022)
+print(matriz_pesos_pca_2022)
+
+#  --------------------------------------------------
+#  --------------------------------------------------
+
+# BETAS 1, 2, 3 E 4, RESPECTIVAMENTE 
+betas_2022 <- c(-0.2773879, -0.5624944, 0.2871662, -0.2138834)
+resultado <- matriz_pesos_pca_2022[, 1:4] %*% betas_2022
+
+modelo2022_resultado <- data.frame(Variavel = rownames(matriz_pesos_pca_2022), Resultado = round(resultado, 4))
+
+#  --------------------------------------------------
+print(modelo2022_resultado)
+#  --------------------------------------------------
+
+#Variavel Resultado
+#TAXA_CRIMINALIDADE_2022               TAXA_CRIMINALIDADE_2022    0.0324
+#IDHM_2022                                           IDHM_2022   -0.0471
+#TAXA_ANALFABETISMO_2022               TAXA_ANALFABETISMO_2022   -0.1448
+#IDEB_Municipal_2022                       IDEB_Municipal_2022   -0.0081
+#TAXA_MORTALIDADE_INFANTIL_2022 TAXA_MORTALIDADE_INFANTIL_2022   -0.0660
+#i-Plan_taxa_2021                             i-Plan_taxa_2021    0.2564
+#i-Saúde_taxa_2021                           i-Saúde_taxa_2021    0.3355
+#i-GovTI_taxa_2021                           i-GovTI_taxa_2021    0.2266
+#i-Fiscal_taxa_2021                         i-Fiscal_taxa_2021    0.2059
+#i-Educ_taxa_2021                             i-Educ_taxa_2021    0.3803
+#i-Cidade_taxa_2021                         i-Cidade_taxa_2021    0.0727
+#i-Amb_taxa_2021                               i-Amb_taxa_2021    0.2397
+#TAXA_DESEMPREGO_2010                     TAXA_DESEMPREGO_2010   -0.0841
+#TAXA_URBANIZAÇÃO_2010                   TAXA_URBANIZAÇÃO_2010   -0.0772
+#GINI_2010                                           GINI_2010    0.0205
 
 
 

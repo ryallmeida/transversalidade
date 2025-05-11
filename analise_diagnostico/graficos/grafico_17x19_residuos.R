@@ -174,3 +174,64 @@ print(combined_plot1)
 
 ggplot2::ggsave("COMPARACAO_17x19(1).png", combined_plot1, width = 10, height = 8)
 
+# ====================================================================================
+# PREDICTO X OBS
+# ====================================================================================
+
+library(ggplot2)
+
+# Adicionar coluna 'Ano' aos dataframes
+Zscore_2017$Ano <- "2017"
+Zscore_2017$IEGM_Obs <- Zscore_2017$IEGM_taxa
+
+Zscore_2019$Ano <- "2019"
+Zscore_2019$IEGM_Obs <- Zscore_2019$IEGM_Taxa_2019
+
+# Unir os dois dataframes
+dados_comparativos <- rbind(Zscore_2017[, c("IEGM_Obs", "preditos", "Ano")],
+                            Zscore_2019[, c("IEGM_Obs", "preditos", "Ano")])
+
+# Modelos de regressão por ano
+modelo_ajuste_2017 <- lm(preditos ~ IEGM_Obs, data = subset(dados_comparativos, Ano == "2017"))
+modelo_ajuste_2019 <- lm(preditos ~ IEGM_Obs, data = subset(dados_comparativos, Ano == "2019"))
+
+# Equações e R²
+coef_2017 <- coef(modelo_ajuste_2017)
+r2_2017 <- summary(modelo_ajuste_2017)$adj.r.squared
+texto_eq_2017 <- paste0("2017: y = ", round(coef_2017[2], 3), "x + ", round(coef_2017[1], 3),
+                        "\nR² = ", round(r2_2017, 3))
+
+coef_2019 <- coef(modelo_ajuste_2019)
+r2_2019 <- summary(modelo_ajuste_2019)$adj.r.squared
+texto_eq_2019 <- paste0("2019: y = ", round(coef_2019[2], 3), "x + ", round(coef_2019[1], 3),
+                        "\nR² = ", round(r2_2019, 3))
+
+# Gráfico com cores manuais
+grafico_sobreposto1 <- ggplot(dados_comparativos, aes(x = IEGM_Obs, y = preditos)) +
+  geom_point(data = subset(dados_comparativos, Ano == "2017"),
+             color = "#228B22", size = 2, shape = 1) +
+  geom_smooth(data = subset(dados_comparativos, Ano == "2017"),
+              method = "lm", se = FALSE, color = "#228B22") +
+  geom_point(data = subset(dados_comparativos, Ano == "2019"),
+             color = "#1E3A8A", size = 2, shape = 1) +
+  geom_smooth(data = subset(dados_comparativos, Ano == "2019"),
+              method = "lm", se = FALSE, color = "#1E3A8A") +
+  geom_abline(slope = 1, intercept = 0, linetype = "dashed", color = "black") +
+  annotate("text",
+           x = min(dados_comparativos$IEGM_Obs),
+           y = max(dados_comparativos$preditos),
+           label = texto_eq_2017,
+           hjust = 0, size = 4, color = "#228B22") +
+  annotate("text",
+           x = min(dados_comparativos$IEGM_Obs),
+           y = max(dados_comparativos$preditos) * 0.85,
+           label = texto_eq_2019,
+           hjust = 0, size = 4, color = "#1E3A8A") +
+  labs(title = "Modelos 2017 e 2019 sobrepostos",
+       x = "IEGM (Observado)",
+       y = "IEGM (Predito)") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5))
+
+# Exibir gráfico
+print(grafico_sobreposto1)

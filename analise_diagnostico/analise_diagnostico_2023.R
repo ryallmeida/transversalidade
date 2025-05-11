@@ -273,7 +273,7 @@ equacao_texto <- paste0("y = ", round(inclinacao, 3), "x + ", round(intercepto, 
 r2_texto <- paste0("R² Ajustado = ", round(r2_ajustado, 3))
 
 # Plotar gráfico com equação e R²
-plot.pred_obs_2019 <- ggplot(Zscore_2023, aes(x = IEGM_taxa_2023, y = preditos)) +
+plot.pred_obs_2023 <- ggplot(Zscore_2023, aes(x = IEGM_taxa_2023, y = preditos)) +
   geom_smooth(method = "lm", color = "#B22222", se = FALSE) +
   geom_point(size = 2, shape = 1, color = "#B22222") +
   geom_abline(slope = 1, intercept = 0, color = "black", linetype = "dashed") +
@@ -295,10 +295,78 @@ plot.pred_obs_2019 <- ggplot(Zscore_2023, aes(x = IEGM_taxa_2023, y = preditos))
 
 ggplot2::ggsave("plot.pred_obs_2023(1).png", plot.pred_obs_2019, width = 10, height = 8)
 
-print(plot.pred_obs_2019)
+print(plot.pred_obs_2023)
 
 
+library(patchwork)
 
+combined_plot4 <- plot.pred_obs_2017+ plot.pred_obs_2019 + plot.pred_obs_2022 + plot.pred_obs_2023 + plot_layout(ncol = 2)
+print(combined_plot4)
+
+# ===================================================================================
+# SCRIPT::ANALISE DO MODELO DE REGRESSÃO PROPRIAMENTE DITA
+# ===================================================================================
+
+#  --------------------------------------------------
+# OUTPUT --------------------------------------------
+
+summary(model1_pca_2023)$coefficients
+
+#  --------------------------------------------------
+#      Estimate Std. Error    t value     Pr(>|t|)
+#PC1 -0.17294326 0.01695535 -10.199923 1.375537e-19
+#PC2 -0.63783444 0.01956782 -32.596087 1.149660e-77
+#PC3 -0.05059349 0.02124703  -2.381203 1.829408e-02
+#PC4 -0.24675189 0.02279697 -10.823889 2.261735e-21
+#  --------------------------------------------------
+
+Zscore_2023_1 <- Zscore_2023[, !colnames(Zscore_2023) %in% "preditos"]
+Zscore_2023_2 <- Zscore_2023_1[, !colnames(Zscore_2023_1) %in% "IEGM_taxa_2023"]
+
+# CODIGO ABAIXO PARA A CONSTRUÇÃO DA MATRIZ, PARA A ANALISE FINAL
+pca_2023_1 <- prcomp(Zscore_2023_2, center = TRUE, scale. = TRUE)
+print(pca_2023_1)
+
+# COPIANDO DA AREA DE TRANSFERENCIA O QUE EU ISOLEI
+pesos_pca_colada_2023 <- read.table("clipboard", header = T)
+print(pesos_pca_colada_2023)
+
+# NÃO REMOVER NEMNHUM PC VISTO QUE OS 4 PRIMEROS DERAM SIGNIFICANTES 
+
+print(pesos_pca_colada_2023)
+
+matriz_pesos_pca_2023 <- as.matrix(pesos_pca_colada_2023)
+print(matriz_pesos_pca_2023)
+
+#  --------------------------------------------------
+#  --------------------------------------------------
+
+# BETAS 1, 2, 3 E 4, RESPECTIVAMENTE 
+betas_2023 <- c(-0.17294326, -0.63783444, -0.05059349, -0.24675189)
+resultado <- matriz_pesos_pca_2023[, 1:4] %*% betas_2023
+
+modelo2023_resultado <- data.frame(Variavel = rownames(matriz_pesos_pca_2023), Resultado = round(resultado, 4))
+
+#  --------------------------------------------------
+print(modelo2023_resultado)
+#  --------------------------------------------------
+
+#Variavel Resultado
+#i-Plan_taxa_2023                             i-Plan_taxa_2023    0.2726
+#i-Saúde_taxa_2023                           i-Saúde_taxa_2023    0.1221
+#i-GovTI_taxa_2023                           i-GovTI_taxa_2023    0.2897
+#i-Fiscal_taxa_2023                         i-Fiscal_taxa_2023    0.3095
+#i-Educ_taxa_2023                             i-Educ_taxa_2023    0.2616
+#i-Cidade_taxa_2023                         i-Cidade_taxa_2023    0.2363
+#i-Amb_taxa_2023                               i-Amb_taxa_2023    0.2248
+#TAXA_CRIMINALIDADE_2023               TAXA_CRIMINALIDADE_2023   -0.1652
+#IDHM_PE_2010                                     IDHM_PE_2010   -0.0218
+#GINI_2010                                           GINI_2010    0.0664
+#TAXA_ANALFABETISMO_2010               TAXA_ANALFABETISMO_2010    0.0161
+#TAXA_DESEMPREGO_2010                     TAXA_DESEMPREGO_2010    0.1067
+#TAXA_MORTALIDADE_INFANTIL_2010 TAXA_MORTALIDADE_INFANTIL_2010    0.0320
+#TAXA_URBANIZAÇÃO_2010                   TAXA_URBANIZAÇÃO_2010    0.1074
+#IDEB_Municipal_2022                       IDEB_Municipal_2022    0.0053
 
 
 
