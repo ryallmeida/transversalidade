@@ -1,5 +1,5 @@
-# EVIDÊNCIAS SOBRE O USO DE ALGORITMOS DE PROCESSAMENTO DE LINGUAGEM NATURAL E MACHINE LEARNING COMO FERRAMENTA DIAGNOSTICA À TRANSVERSALIDADE EM PERNAMBUCO [![licensebuttons by-nc-sa](https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0) [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
-## Resumo
+# EVIDÊNCIAS SOBRE O USO DE ALGORITMOS DE PROCESSAMENTO DE LINGUAGEM NATURAL E MACHINE LEARNING COMO FERRAMENTA DIAGNOSTICA À TRANSVERSALIDADE EM PERNAMBUCO [![licensebuttons by-nc-sa](https://licensebuttons.net/l/by-nc-sa/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0) 
+## Resumo [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://GitHub.com/Naereen/ama)
 
 Este projeto dividi-se em duas partes, mas ambas dialogam entre si, pois têm como objetivo último analisar a transversalidade e dar uma situação diagnóstica à ela.
 
