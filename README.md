@@ -21,15 +21,20 @@ Nesse cenário, o Índice de Efetividade da Gestão Municipal (IEGM) surge como 
 
 A partir da análise do índice em questão, foi possível desenvolver dois mapas temáticos e representativos do estado de Pernambuco. O primeiro mapa (vide Figura 1) demonstra a média estimada do IEGM para o estado em escala absoluta, que oferece uma perspectiva projetada da eficiência administrativa municipal. Já o segundo mapa (vide Figura 2) retrata a realidade observada no território, revelando possíveis disparidades entre as expectativas institucionais e os desempenhos reais das gestões locais. Essa abordagem permite uma análise comparativa entre territórios do estado.
 
-> COLOCAR MAPA 1 AQUI
+<img width="1000" height="880" alt="Image" src="https://github.com/user-attachments/assets/443b6402-60eb-4c3f-93d8-448db894db9d" />
 
+Figura 1. Efetividade Média da Gestão Municipal em Pernambuco em escala absoluta (2017-2013)
 Fonte: Instituto Rui Barbosa/TCE-PE. 
+
 **Elaboração própria.** Pires *et al*. (2025)
 
-> COLOCAR MAPA 2 AQUI
+<img width="1200" height="920" alt="Image" src="https://github.com/user-attachments/assets/9ddaf92c-2231-4b0a-ad10-3d6d42a51443" />
 
+Figura 2. Efetividade Média da Gestão Municipal em Pernambuco em escala comparada (2017-2013)
 Fonte: Instituto Rui Barbosa/TCE-PE. 
+
 **Elaboração própria.** Pires *et al*. (2025)
+
 
 Ora, se a efetividade média da gestão municipal em Pernambuco permanece abaixo do ideal, o que isso revela sobre a capacidade dos entes locais de produzir políticas com resultados concretos? Mais do que uma questão de desempenho administrativo, esse dado lança luz sobre a questão e convida a uma reflexão mais ampla: até que ponto a baixa efetividade é sintoma de uma estrutura federativa que, embora descentralizada, ainda opera de forma fragmentada? Ao reconhecer que políticas públicas eficazes dependem de interações coordenadas entre diferentes esferas de governo, esse modelo explicita a necessidade de articulação, cooperação e fluidez institucional.
 
