@@ -35,7 +35,7 @@ pacman::p_load(openxlsx,
 # ==============================================================================
 
 # FONTE: https://www.ibge.gov.br/explica/codigos-dos-municipios.php
-MUNICIPIOS_IBGE <- readxl::read_excel("C:/Users/Admin/Downloads/RELATORIO_DTB_BRASIL_2024_MUNICIPIOS.xls")
+# MUNICIPIOS_IBGE <- readxl::read_excel("C:/Users/Admin/Downloads/RELATORIO_DTB_BRASIL_2024_MUNICIPIOS.xls")
 
 # FILTRANDO APENAS AS OBS. DE PERNAMBUCO
 
@@ -55,16 +55,16 @@ MUNICIPIOS_PE <- MUNICIPIOS_PE %>%
 # ==============================================================================
 
 
-IEGM_PE_2017 <- read.xlsx("https://github.com/ryallmeida/transversalidade/raw/refs/heads/main/wanda/dataset/IEGM_PE_2017.xlsx")
+# IEGM_PE_2017 <- read.xlsx("https://github.com/ryallmeida/transversalidade/raw/refs/heads/main/wanda/dataset/IEGM_PE_2017.xlsx")
 glimpse(IEGM_PE_2017)
 
-IEGM_PE_2019 <- read.xlsx("https://github.com/ryallmeida/transversalidade/raw/refs/heads/main/wanda/dataset/IEGM_PE_2019.xlsx")
+# IEGM_PE_2019 <- read.xlsx("https://github.com/ryallmeida/transversalidade/raw/refs/heads/main/wanda/dataset/IEGM_PE_2019.xlsx")
 glimpse(IEGM_PE_2019)
 
-IEGM_PE_2021 <- read.xlsx("https://github.com/ryallmeida/transversalidade/raw/refs/heads/main/wanda/dataset/IEGM_PE_2021.xlsx")
+# IEGM_PE_2021 <- read.xlsx("https://github.com/ryallmeida/transversalidade/raw/refs/heads/main/wanda/dataset/IEGM_PE_2021.xlsx")
 glimpse(IEGM_PE_2021)
 
-IEGM_PE_2023 <- read.xlsx("https://github.com/ryallmeida/transversalidade/raw/refs/heads/main/wanda/dataset/IEGM_PE_2023.xlsx")
+# IEGM_PE_2023 <- read.xlsx("https://github.com/ryallmeida/transversalidade/raw/refs/heads/main/wanda/dataset/IEGM_PE_2023.xlsx")
 glimpse(IEGM_PE_2023)
 
 # ==============================================================================
@@ -148,6 +148,8 @@ MUNICIPIOS_PE <- MUNICIPIOS_PE |>
 #write.csv(MUNICIPIOS_PE, "C:/Users/Admin/Documents/RYAN/transversalidade/wanda/mapa/iegm_mean_final.csv")
 # -----------------------------------------
 
+MUNICIPIOS_PE <- read.csv("https://github.com/ryallmeida/transversalidade/raw/refs/heads/main/wanda/mapa/iegm_mean_final.csv")
+
 # ==============================================================================
 # ORGAZANIZANDO O DATAFAME PROPRIAMENTE DITO
 # ==============================================================================
@@ -177,6 +179,9 @@ mapa_pernambuco <- mapa_pernambuco |>
 # EXPORTANDO DADOS PARA UMA TABELA XLSX PARA SALVAR O DAATFRAME
 # openxlsx::write.xlsx(mapa_pernambuco, "C:/Users/cicer/OneDrive/Documentos/METODOS/GEOLOCALIZADOS/MEAN_IEGM_PE.xlsx")
 # -----------------------------------------
+
+# IMPORTANDO BASES DE DADOS DO REPOSITÓRIO GIT
+
 
 # ==============================================================================
 # PLOTANDO O GRAFICO PROPRIAMENTE DITO
