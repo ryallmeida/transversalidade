@@ -1,0 +1,237 @@
+termo,tipo,intensidade
+integrar,positivo,1
+integração,positivo,1
+intersetorial,positivo,1
+articulação,positivo,1
+transversal,positivo,1
+multidisciplinar,positivo,"0,75"
+interinstitucional,positivo,1
+cooperação,positivo,"0,75"
+coordenação,positivo,"0,75"
+consórcio,positivo,"0,3"
+parceria,positivo,"0,5"
+colaborativo,positivo,"0,5"
+convergência,positivo,"0,3"
+municípios,positivo,"0,1"
+estados,positivo,"0,1"
+união,positivo,"0,1"
+entes federados,positivo,"0,3"
+instâncias,positivo,"0,3"
+interfederativo,positivo,"0,75"
+descentralização,positivo,"0,75"
+governança,positivo,"0,3"
+colegiado,positivo,"0,5"
+comitê gestor,positivo,"0,5"
+conselhos,positivo,"0,5"
+pactuação,positivo,"0,2"
+corresponsabilidade,positivo,"0,1"
+plano integrado,positivo,1
+orçamento integrado,positivo,1
+matriz intersetorial,positivo,1
+planejamento conjunto,positivo,1
+agenda comum,positivo,1
+metas compartilhadas,positivo,1
+indicadores integrados,positivo,1
+programas estruturantes,positivo,"0,5"
+iniciativas conjuntas,positivo,"0,75"
+financiamento integrado,positivo,"0,75"
+participação social,positivo,"0,5"
+controle social,positivo,"0,2"
+audiências públicas,positivo,"0,2"
+consulta pública,positivo,"0,2"
+escuta ativa,positivo,"0,2"
+transparência,positivo,"0,5"
+sociedade civil,positivo,"0,2"
+deliberação,positivo,"0,1"
+interseccionalidade,positivo,1
+equidade,positivo,"0,2"
+inclusão,positivo,"0,75"
+grupos vulneráveis,positivo,"0,2"
+promoção da igualdade,positivo,"0,1"
+combate às desigualdades,positivo,"0,1"
+ações afirmativas,positivo,"0,1"
+direitos humanos,positivo,"0,1"
+diversidade,positivo,"0,1"
+justiça social,positivo,"0,1"
+promover,positivo,"0,3"
+executar,positivo,"0,3"
+garantir,positivo,"0,3"
+implantar,positivo,"0,5"
+manutencao,positivo,"0,75"
+fortalecer,positivo,"0,8"
+desenvolver,positivo,"0,5"
+ampliacao,positivo,"0,75"
+crescimento,positivo,"0,75"
+elevar,positivo,"0,75"
+transferencia,positivo,"0,3"
+atender,positivo,"0,4"
+beneficios,positivo,"0,3"
+realizar,positivo,"0,5"
+ampliar,positivo,"0,75"
+assegurar,positivo,"0,75"
+execucao,positivo,"0,75"
+fornecer,positivo,"0,5"
+melhorar,positivo,"0,75"
+promocao,positivo,"0,5"
+recursos,positivo,"0,3"
+acesso,positivo,"0,3"
+atendimento,positivo,"0,3"
+criacao,positivo,"0,2"
+exercer,positivo,"0,75"
+implantacao,positivo,"0,75"
+manter,positivo,"0,5"
+melhoria,positivo,"0,75"
+modernizar,positivo,"0,8"
+aperfeicoar,positivo,"0,8"
+colaboracao,positivo,"0,9"
+concessao,positivo,"0,5"
+consolidacao,positivo,"0,5"
+coordenar,positivo,"0,9"
+desenvolvimento,positivo,"0,75"
+eficiencia,positivo,"0,75"
+estimular,positivo,"0,5"
+executados,positivo,"0,75"
+fortalecimento,positivo,"0,75"
+implementar,positivo,"0,8"
+incrementar,positivo,"0,9"
+integracao,positivo,1
+integrada,positivo,1
+integrar,positivo,1
+metas,positivo,"0,4"
+otimizar,positivo,"0,5"
+pagamento,positivo,"0,1"
+participacao,positivo,"0,4"
+participar,positivo,"0,3"
+recuperacao,positivo,"0,7"
+transparencia,positivo,"0,5"
+viabilizar,positivo,"0,6"
+abranger,positivo,"0,4"
+abrangera,positivo,"0,2"
+acao,positivo,"0,2"
+acessibilidade,positivo,"0,1"
+acompanhar,positivo,"0,6"
+adaptavel realidade,positivo,"0,8"
+agregar,positivo,"0,75"
+alcancadas,positivo,"0,7"
+alcance,positivo,"0,3"
+alocacao,positivo,"0,2"
+ampliacao cidadania ativa grupos discriminados,positivo,"0,2"
+ampliacao integracao,positivo,1
+ampliar melhoria,positivo,"0,3"
+aperfeicoamento,positivo,"0,3"
+aportar,positivo,"0,1"
+aquisicao,positivo,"0,1"
+arrecadacao,positivo,"0,1"
+articulacao,positivo,1
+atraente,positivo,"0,1"
+aumento,positivo,"0,3"
+avaliacao,positivo,"0,7"
+capacitar,positivo,"0,7"
+compensacao,positivo,"0,3"
+compromisso,positivo,"0,5"
+conscientizacao,positivo,"0,3"
+conscientizar,positivo,"0,2"
+conservar,positivo,"0,3"
+consolidar,positivo,"0,4"
+construcao,positivo,"0,3"
+construir,positivo,"0,3"
+contribuir,positivo,"0,3"
+controle social,positivo,"0,3"
+convenio,positivo,"0,75"
+convergencia,positivo,"0,5"
+cooperacao,positivo,"0,8"
+creditos,positivo,"0,3"
+custeio,positivo,"0,2"
+defender,positivo,"0,2"
+descentralizar,positivo,"0,8"
+desenvolvidas,positivo,"0,3"
+desigualdade infraestrutura,positivo,"0,1"
+determinacao,positivo,"0,2"
+direcionador,positivo,"0,7"
+disponibilizar,positivo,"0,3"
+disponibilizara,positivo,"0,2"
+divulgar,positivo,"0,2"
+efetivar,positivo,"0,7"
+elaboracao,positivo,"0,3"
+alienacao,negativo,"-0,3"
+apoio,negativo,"-0,1"
+despesas,negativo,"-0,1"
+limite,negativo,"-0,1"
+reducao,negativo,"-0,1"
+assentamentos,negativo,"-0,5"
+atingida,negativo,"-0,5"
+ausencia,negativo,"-0,75"
+comprometimento,negativo,"-0,2"
+concentrados,negativo,-1
+contempla,negativo,"-0,2"
+contingenciamento,negativo,"-0,5"
+custo,negativo,"-0,2"
+deficit,negativo,"-0,7"
+densidade,negativo,"-0,8"
+desaceleracao,negativo,"-0,75"
+desemprego,negativo,"-0,2"
+desindustrializacao,negativo,"-0,1"
+devolucao,negativo,"-0,1"
+diminuicao,negativo,"-0,5"
+escolar,negativo,"-0,1"
+especificidades,negativo,"-0,3"
+estagnado,negativo,"-0,6"
+exclusivamente,negativo,"-0,8"
+fragmentacao,negativo,-1
+impedimento,negativo,"-0,5"
+julgar,negativo,"-0,3"
+limitacao,negativo,"-0,5"
+limitacoes,negativo,"-0,6"
+limites,negativo,"-0,6"
+mediante,negativo,"-0,5"
+morte,negativo,"-0,2"
+nenhuma,negativo,"-0,7"
+possibilita,negativo,"-0,1"
+programa,negativo,"-0,1"
+racionalizar,negativo,"-0,2"
+rever,negativo,"-0,1"
+subregistro,negativo,"-0,8"
+terras,negativo,"-0,1"
+tragedias,negativo,"-0,3"
+vedada,negativo,"-0,5"
+vulneraveis,negativo,"-0,2"
+setor específico,negativo,-1
+por secretaria,negativo,"-0,7"
+por pasta,negativo,"-0,5"
+atuação isolada,negativo,-1
+atuação setorial,negativo,-1
+responsabilidade única,negativo,-1
+sem articulação,negativo,-1
+fragmentado,negativo,-1
+fragmentação,negativo,-1
+divisão de competências,negativo,"-0,8"
+compartimentalização,negativo,"-0,9"
+autônomo,negativo,"-0,75"
+setorializado,negativo,"-0,8"
+ausência de coordenação,negativo,-1
+falta de integração,negativo,-1
+falta de diálogo,negativo,-1
+não articulado,negativo,-1
+sem parceria,negativo,-1
+sem cooperação,negativo,-1
+desarticulado,negativo,-1
+sem comunicação,negativo,-1
+sem sinergia,negativo,-1
+ações separadas,negativo,-1
+decisão centralizada,negativo,-1
+competência exclusiva,negativo,-1
+centralização,negativo,-1
+comando único,negativo,-1
+sem descentralização,negativo,-1
+autoridade exclusiva,negativo,-1
+gestão isolada,negativo,-1
+nível único,negativo,-1
+sem consulta,negativo,-1
+unilateral,negativo,-1
+responsabilidade do município,negativo,"-0,75"
+sem apoio da união,negativo,"-0,5"
+ausência de corresponsabilidade,negativo,"-0,75"
+não pactuado,negativo,"-0,75"
+sem pactuação,negativo,"-0,75"
+sem integração federativa,negativo,-1
+delegação sem recursos,negativo,"-0,25"
