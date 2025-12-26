@@ -81,7 +81,7 @@ readr::write_csv(
 )
 
 index_transversalidade  <- readr::read_csv(
-  "C:/Users/ryall/Desktop/R/transversalidade/wanda/index/index_transversalidade.csv",
+  "https://raw.githubusercontent.com/ryallmeida/transversalidade/refs/heads/main/wanda/index/index_transversalidade.csv",
   show_col_types = FALSE
 )
 
