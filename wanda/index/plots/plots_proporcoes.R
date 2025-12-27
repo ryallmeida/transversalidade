@@ -52,10 +52,12 @@ readr::write_csv(
 
 # ==============================================================================
 # USE O QUE SEGUE
+
 dados_proporcoes <- readr::read_csv(
   "https://raw.githubusercontent.com/ryallmeida/transversalidade/refs/heads/main/wanda/index/plots/dados_proporcoes.csv",
   show_col_types = FALSE
 )
+
 # ==============================================================================
 
 dados_proporcoes <- dados_proporcoes %>%
@@ -245,93 +247,6 @@ ggsave(
 )
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-plot_proporcao_tipo <- function(df, var_cat, titulo = NULL) {
-  
-  dados_prop <- df %>%
-    filter(!is.na(.data[[var_cat]])) %>%
-    count(.data[[var_cat]]) %>%
-    mutate(prop = 100 * n / sum(n))
-  
-  ggplot(dados_prop, aes(
-    x = prop,
-    y = "",
-    fill = .data[[var_cat]]
-  )) +
-    geom_bar(
-      stat = "identity",
-      position = "stack",
-      width = 0.6,
-      color = NA
-    ) +
-    geom_text(
-      aes(label = paste0(round(prop, 1), "%")),
-      position = position_stack(vjust = 0.5),
-      color = "white",
-      size = 3.3,
-      fontface = "bold"
-    ) +
-    scale_fill_viridis_d(
-      option = "rocket",
-      direction = -1,
-      begin = 0.15,
-      end = 0.85,
-      name = "Categoria de sentimento"
-    ) +
-    scale_x_continuous(
-      expand = c(0, 0),
-      limits = c(0, 100)
-    ) +
-    labs(
-      x = "Proporção (%)",
-      y = NULL,
-      title = titulo
-    ) +
-    theme_minimal(base_size = 13) +
-    theme(
-      axis.text.y = element_blank(),
-      axis.ticks.y = element_blank(),
-      panel.grid.major.y = element_blank(),
-      panel.grid.minor = element_blank()
-    )
-}
-
-p_tipo  <- plot_proporcao_tipo(
-  dados_sentimento,
-  "tipo",
-  titulo = "Distribuição das categorias — tipo"
-)
-
-p_tipo2 <- plot_proporcao_tipo(
-  dados_sentimento,
-  "tipo2",
-  titulo = "Distribuição das categorias — tipo2"
-)
-
-p_tipo3 <- plot_proporcao_tipo(
-  dados_sentimento,
-  "tipo3",
-  titulo = "Distribuição das categorias — tipo3"
-)
-
-print(p_tipo3)
-
-
 # ==============================================================================
 
 
@@ -436,7 +351,7 @@ ggplot(serie_temporal, aes(x = ano, y = net_sent)) +
 #Índice Ponderado por Intensidade (Weighted Sentiment Index)
 #Dá mais peso a termos muito positivos ou muito negativos.
 
-serie_temporal <- dados_sentimento_resumo %>%
+serie_temporal <- serie_temporal %>%
   mutate(
     weighted_sent = ifelse(
       matched_tokens == 0, 
@@ -444,7 +359,6 @@ serie_temporal <- dados_sentimento_resumo %>%
       sum_polarity / matched_tokens
     )
   )
-
 
 ggplot(serie_temporal, aes(x = ano, y = weighted_sent, group = 1)) +
   geom_line(linewidth = 1.2, color = "#e66101") +

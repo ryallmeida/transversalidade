@@ -222,6 +222,7 @@ print(MEAN_IEGM_PE3)
 # ggsave("C:/Users/Admin/Documents/RYAN/transversalidade/wanda/mapa/escala_absoluta.png", plot = MEAN_IEGM_PE3, width = 10, height = 6, dpi = 300)
 
 # VERSÃO CORRETA: EM ESCALA COMPARADA NOS MUNICIPIOS
+
 MEAN_IEGM_PE4 <- ggplot() +
   geom_sf(data = mapa_pernambuco,
           color = "white",
@@ -296,5 +297,60 @@ MEAN_IEGM_PE2 <- ggplot() +
 
 print(MEAN_IEGM_PE2)
 
+# =============================================================================================
+# PARA O WANDA
+# =============================================================================================
+
+MEAN_IEGM_PE3 <- ggplot() +
+  geom_sf(
+    data = mapa_pernambuco,
+    aes(fill = IEGM_media),
+    color = "white",
+    linewidth = 0.2
+  ) +
+  scale_fill_viridis_c(
+    option = "cividis",   
+    limits = c(0, 1),
+    name = "Média (IEGM)",
+    breaks = seq(0, 1, by = 0.2),
+    labels = scales::number_format(accuracy = 0.1)
+  ) +
+  coord_sf(
+    xlim = c(-41.36, -32.39),
+    ylim = c(-9.5, -3.83),
+    expand = FALSE
+  ) +
+  theme_void(base_size = 16) +
+  theme(
+    legend.title = element_text(size = 14),
+    legend.text = element_text(size = 12),
+    legend.position = "bottom",
+    legend.key.width = unit(2, "cm"),
+    plot.margin = margin(10, 10, 10, 10)
+  )
+
+print(MEAN_IEGM_PE3)
 
 
+MEAN_IEGM_PE4 <- ggplot() +
+  geom_sf(data = mapa_pernambuco,
+          color = "white",
+          aes(fill = mapa_pernambuco$IEGM_media)) +
+  viridis::scale_fill_viridis(option = "cividis",
+                              name = "Média (IEGM)")  +
+  coord_sf(
+    xlim = c(-41.36, -32.39),
+    ylim = c(-9.5, -3.83),
+    expand = FALSE
+  ) +
+  ggtitle("") +
+  theme_void(base_size = 16) +  
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 20, face = "bold"),
+    legend.title = element_text(size = 14),
+    legend.text = element_text(size = 12),
+    legend.position = "bottom",  
+    legend.key.width = unit(2, "cm"),
+    plot.margin = margin(10, 10, 10, 10)
+  )
+print(MEAN_IEGM_PE4)
