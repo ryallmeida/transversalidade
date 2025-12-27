@@ -1,3 +1,53 @@
+# PLOTTAGEM DAS PROPORÇÕES DAS RESPECTIVAS CATEGORIAS 
+# ----------------------------------------
+# TITULO DO TRABALHO 
+# EVIDENCIAS DO USO DE ALGORITMOS DE PROCESSAMENTO DE LINGUAGEM NATURAL E MACHINE LEARNING APLICADOS COMO FERRAMENTA DIAGOSTICA à TRANSVERSALIDADE EM PERNAMBUCO
+
+# ----------------------------------------
+# AUTORIA DE RYAN ALMEIDA, MARIANA BATISTA, JULIA EVELYN, LARISSA SILVA, 
+# ALEXANDRE MENDES, ANA CASTELO BRANCO, CICERA VITÓRIA E A PROFA. DRA. MARIA DO CARMO SOARES DE LIMA
+
+# ----------------------------------------
+# UNIVERSIDADE FEDERAL DE PERNAMBUCO
+# DEPARTAMENTO DE CIÊNCIA POLÍTICA 
+# CODADO ORIGINALMENTE EM R 4.4.3
+
+# ==============================================================================
+
+proporcao_ldo <- readr::read_csv(
+  "C:/Users/ryall/Downloads/PROPORCOES/proporcao_ppa.csv",
+  show_col_types = FALSE
+)
+
+proporcao_ppa <- readr::read_csv(
+  "C:/Users/ryall/Downloads/PROPORCOES/proporcao_ppa.csv",
+  show_col_types = FALSE
+)
+
+proporcao_loa <- readr::read_csv(
+  "C:/Users/ryall/Downloads/PROPORCOES/proporcao_loa.csv",
+  show_col_types = FALSE
+)
+
+dados_proporcoes <- dplyr::bind_rows(proporcao_ldo, proporcao_ppa, proporcao_loa)
+
+readr::write_csv(
+  dados_proporcoes,
+  "C:/Users/ryall/Downloads/PROPORCOES/dados_proporcoes.csv",
+  na = "",
+  quote = "needed"
+)
+
+# USE O QUE SEGUE
+
+dados_proporcoes <- readr::read_csv(
+  "C:/Users/ryall/Downloads/loa_preprocessado(1).csv",
+  show_col_types = FALSE
+)
+
+
+# ==============================================================================
+
 
 plot_proporcao_tipo <- function(df, var_cat, titulo = NULL) {
   

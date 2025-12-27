@@ -14,19 +14,12 @@
 # CODADO ORIGINALMENTE EM R 4.4.3
 
 # ==============================================================================
-
-# ----------------------------------------
 #FAZENDO O UPLOAD DE BIBLIOTECAS 
-# ----------------------------------------
-#CARREGANDO TODOS OS PACOTES AO MESMO TEMPO
+set.seed(123)
 
 if(!require(pacman)){
   install.packages("pacman") 
 }
-
-# -------------------------------------------------
-# INSTALAÇÃO DOS PACKAGES 
-# -------------------------------------------------
 
 pacman::p_load(pdftools, 
                tidyverse,
@@ -315,30 +308,6 @@ sentimento_tfidf <- as.numeric(
 rm(dfm_tf, dfm_tfidf, dfm_tf_lex, dfm_tfidf_lex); gc()
 # OPCIONAL: LIBERAR ESPAÇO
 
-
-# TRAFORMADOR EM PARAGRAFO
-dados_doc_unico <- dados_doc %>%
-  group_by(paragrafo_id) %>%
-  summarise(
-    tfidf_total = mean(tfidf_total, na.rm = TRUE),
-    tfidf_medio = mean(tfidf_medio, na.rm = TRUE),
-    sentimento_total2 = mean(sentimento_total2, na.rm = TRUE),
-    sentimento_tfidf = mean(sentimento_tfidf, na.rm = TRUE),
-    .groups = "drop"
-  )
-
-resultado_limpo <- resultado_limpo %>%
-  left_join(
-    dados_doc_unico,
-    by = "paragrafo_id"
-  )
-
-resultado_limpo <- D %>%
-  left_join(
-    dados_doc_unico,
-    by = "paragrafo_id"
-  )
-
 # ==============================================================================
 # SEGUNDO CHECKPOINT
 
@@ -350,12 +319,13 @@ readr::write_csv(
 )
 
 dados_sentimento <- readr::read_csv(
-  "C:/Users/ryall/Downloads/ldo_nivel_palavra.csv",
+  "C:/Users/ryall/Downloads/CORPUS/ldo_processado_npalavra.csv",
   show_col_types = FALSE
 )
 
 # ==============================================================================
 # AGRUPADOR DE DADOS VIA VARIAVEL ID
+# ==============================================================================
 
 ldo_sumarizado <- dados_sentimento %>%
   group_by(paragrafo_id) %>%
@@ -380,7 +350,7 @@ readr::write_csv(
 )
 
 ldo_nivel_paragrafo <- readr::read_csv(
-  "C:/Users/ryall/Downloads/ldo_nivel_paragrafo.csv",
+  "C:/Users/ryall/Downloads/CORPUS/ldo_processado_nparagrafo.csv",
   show_col_types = FALSE
 )
 
@@ -405,7 +375,7 @@ dados_sentimento <- dados_sentimento %>%
       label_final > 0  ~ "POSITIVO",
       label_final == 0 ~ "NEUTRO",
       label_final < 0  ~ "NEGATIVO",
-      TRUE ~ 0  # mantém o valor antigo se houver NA em label_final
+      TRUE ~ 0  
     )
   )
 
@@ -445,8 +415,7 @@ med     <- bp$stats[3]
 q3      <- bp$stats[4]
 lim_sup <- bp$stats[5]
 
-# divisões internas (proporcionais)
-neg_q1_med <- seq(q1, med, length.out = 4)  # 3 partes
+neg_q1_med <- seq(q1, med, length.out = 4)  
 pos_med_q3 <- seq(med, q3, length.out = 4)
 
 dados_sentimento <- dados_sentimento %>%
@@ -477,10 +446,10 @@ dados_sentimento <- dados_sentimento %>%
 prop.table(table(dados_sentimento$tipo2))
 # HYPERPOSITIVO    NEGATIVO_1    NEGATIVO_2 
 #    0.23059326    0.13119511    0.25112080 
-#   NEGATIVO_3        NEUTRO    POSITIVO_2 
-#   0.09252748    0.01005650    0.12208285 
-#   POSITIVO_4 
-#   0.16242400 
+#    NEGATIVO_3        NEUTRO    POSITIVO_2 
+#    0.09252748    0.01005650    0.12208285 
+#    POSITIVO_4 
+#    0.16242400 
 
 
 
@@ -643,27 +612,9 @@ prop.table(table(ldo_nivel_paragrafo$tipo3))
 #    POSITIVO_4 
 #   0.087790274 
 
-
-# ==============================================================================
-# CHECKPOINT FINAL 
-
-readr::write_csv(
-  dados_sentimento,
-  "C:/Users/ryall/Downloads/ldo_processado_npalavra.csv",
-  na = "",
-  quote = "needed"
-)
-
-readr::write_csv(
-  ldo_nivel_paragrafo,
-  "C:/Users/ryall/Downloads/ldo_processado_nparagrafo.csv",
-  na = "",
-  quote = "needed"
-)
-
-
 # ==============================================================================
 # PROPORÇÃO DAS CATEGORIAS
+# ==============================================================================
 
 resumo_prop <- function(df, var, nivel) {
   prop.table(table(df[[var]])) %>%
@@ -696,3 +647,110 @@ readr::write_csv(
   quote = "needed"
 )
 
+# ==============================================================================
+# QUANTIFICANDO EM ESPECTRO
+# ==============================================================================
+
+dados_sentimento <- readr::read_csv(
+  "C:/Users/ryall/Downloads/CORPUS/ldo_processado_npalavra.csv",
+  show_col_types = FALSE
+)
+
+ldo_nivel_paragrafo <- ldo_nivel_paragrafo %>%
+  mutate(
+    espectro_tipo2 = dplyr::recode(
+      tipo2,
+      "HYPERNEGATIVO" = -6,
+      "NEGATIVO_4"    = -5,
+      "NEGATIVO_3"    = -4,
+      "NEGATIVO_2"    = -3,
+      "NEGATIVO_1"    = -2,
+      "NEUTRO"        =  0,
+      "POSITIVO_1"    =  2,
+      "POSITIVO_2"    =  3,
+      "POSITIVO_3"    =  4,
+      "POSITIVO_4"    =  5,
+      "HYPERPOSITIVO" =  6,
+      .default = NA_real_
+    )
+  )
+
+ldo_nivel_paragrafo <- ldo_nivel_paragrafo %>%
+  mutate(
+    espectro_tipo3 = dplyr::recode(
+      tipo3,
+      "HYPERNEGATIVO" = -6,
+      "NEGATIVO_4"    = -5,
+      "NEGATIVO_3"    = -4,
+      "NEGATIVO_2"    = -3,
+      "NEGATIVO_1"    = -2,
+      "NEUTRO"        =  0,
+      "POSITIVO_1"    =  2,
+      "POSITIVO_2"    =  3,
+      "POSITIVO_3"    =  4,
+      "POSITIVO_4"    =  5,
+      "HYPERPOSITIVO" =  6,
+      .default = NA_real_
+    )
+  )
+
+dados_sentimento <- dados_sentimento %>%
+  mutate(
+    espectro_tipo2 = dplyr::recode(
+      tipo2,
+      "HYPERNEGATIVO" = -6,
+      "NEGATIVO_4"    = -5,
+      "NEGATIVO_3"    = -4,
+      "NEGATIVO_2"    = -3,
+      "NEGATIVO_1"    = -2,
+      "NEUTRO"        =  0,
+      "POSITIVO_1"    =  2,
+      "POSITIVO_2"    =  3,
+      "POSITIVO_3"    =  4,
+      "POSITIVO_4"    =  5,
+      "HYPERPOSITIVO" =  6,
+      .default = NA_real_
+    )
+  )
+
+dados_sentimento <- dados_sentimento %>%
+  mutate(
+    espectro_tipo3 = dplyr::recode(
+      tipo3,
+      "HYPERNEGATIVO" = -6,
+      "NEGATIVO_4"    = -5,
+      "NEGATIVO_3"    = -4,
+      "NEGATIVO_2"    = -3,
+      "NEGATIVO_1"    = -2,
+      "NEUTRO"        =  0,
+      "POSITIVO_1"    =  2,
+      "POSITIVO_2"    =  3,
+      "POSITIVO_3"    =  4,
+      "POSITIVO_4"    =  5,
+      "HYPERPOSITIVO" =  6,
+      .default = NA_real_
+    )
+  )
+
+table(dados_sentimento$tipo2, dados_sentimento$espectro_tipo2)
+table(dados_sentimento$tipo3, dados_sentimento$espectro_tipo3)
+table(ldo_nivel_paragrafo$tipo2, ldo_nivel_paragrafo$espectro_tipo2)
+table(ldo_nivel_paragrafo$tipo3, ldo_nivel_paragrafo$espectro_tipo3)
+
+# ==============================================================================
+# CHECKPOINT FINAL 
+# ==============================================================================
+
+readr::write_csv(
+  ldo_nivel_paragrafo,
+  "C:/Users/ryall/Downloads/ldo_corpus_paragrafo.csv",
+  na = "",
+  quote = "needed"
+)
+
+readr::write_csv(
+  dados_sentimento,
+  "C:/Users/ryall/Downloads/ldo_corpus_palavra.csv",
+  na = "",
+  quote = "needed"
+)
