@@ -13,9 +13,21 @@
 # CODADO ORIGINALMENTE EM R 4.4.3
 
 # ==============================================================================
+set.seed(123)
+
+if(!require(pacman)){
+  install.packages("pacman") 
+}
+
+pacman::p_load(tidyverse,
+               viridis,
+               scales,
+               showtext)
+
+# ==============================================================================
 
 proporcao_ldo <- readr::read_csv(
-  "C:/Users/ryall/Downloads/PROPORCOES/proporcao_ppa.csv",
+  "C:/Users/ryall/Downloads/PROPORCOES/proporcao_ldo.csv",
   show_col_types = FALSE
 )
 
@@ -33,20 +45,220 @@ dados_proporcoes <- dplyr::bind_rows(proporcao_ldo, proporcao_ppa, proporcao_loa
 
 readr::write_csv(
   dados_proporcoes,
-  "C:/Users/ryall/Downloads/PROPORCOES/dados_proporcoes.csv",
+  "C:/Users/ryall/Desktop/R/transversalidade/wanda/index/plots/dados_proporcoes.csv",
   na = "",
   quote = "needed"
 )
 
+# ==============================================================================
 # USE O QUE SEGUE
-
 dados_proporcoes <- readr::read_csv(
-  "C:/Users/ryall/Downloads/loa_preprocessado(1).csv",
+  "https://raw.githubusercontent.com/ryallmeida/transversalidade/refs/heads/main/wanda/index/plots/dados_proporcoes.csv",
   show_col_types = FALSE
+)
+# ==============================================================================
+
+dados_proporcoes <- dados_proporcoes %>%
+  mutate(
+    espectro = case_when(
+      
+      # ======================
+      # TIPO 1 (tricotômico)
+      # ======================
+      tipo == "tipo1" & classe == "NEGATIVO" ~ -1,
+      tipo == "tipo1" & classe == "NEUTRO"   ~  0,
+      tipo == "tipo1" & classe == "POSITIVO"~  1,
+      
+      # ======================
+      # ESPECTRO SENSÍVEL
+      # ======================
+      classe == "HYPERNEGATIVO" ~ -6,
+      classe == "NEGATIVO_4"    ~ -5,
+      classe == "NEGATIVO_3"    ~ -4,
+      classe == "NEGATIVO_2"    ~ -3,
+      classe == "NEGATIVO_1"    ~ -2,
+      classe == "NEUTRO"        ~  0,
+      classe == "POSITIVO_1"    ~  2,
+      classe == "POSITIVO_2"    ~  3,
+      classe == "POSITIVO_3"    ~  4,
+      classe == "POSITIVO_4"    ~  5,
+      classe == "HYPERPOSITIVO" ~  6,
+      
+      TRUE ~ NA_real_
+    )
+  )
+
+# ==============================================================================
+
+plot_espectro_sentimento <- function(
+    df,
+    nivel_sel,
+    titulo = NULL
+) {
+  
+  dados_plot <- df %>%
+    filter(nivel_corpus == nivel_sel) %>%
+    mutate(
+      espectro_f = factor(espectro, levels = sort(unique(espectro)))
+    ) %>%
+    arrange(espectro)
+  
+  ggplot(dados_plot, aes(
+    x = proporcao * 100,
+    y = tipo,
+    fill = espectro_f
+  )) +
+    geom_bar(
+      stat = "identity",
+      width = 0.65
+    ) +
+    geom_text(
+      aes(label = paste0(round(proporcao * 100, 1), "%")),
+      position = position_stack(vjust = 0.5),
+      color = "white",
+      size = 3,
+      fontface = "bold"
+    ) +
+    facet_wrap(~ documento, nrow = 1) +
+    scale_fill_viridis_d(
+      option = "cividis",
+      direction = -1,
+      name = "Espectro"
+    ) +
+    scale_x_continuous(
+      limits = c(0, 100),
+      expand = c(0, 0)
+    ) +
+    labs(
+      x = "Proporção (%)",
+      y = NULL,
+      title = titulo
+    ) +
+    theme_minimal(base_size = 13) +
+    theme(
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.ticks.y = element_blank(),
+      strip.text = element_text(face = "bold"),
+      legend.position = "bottom"
+    )
+}
+
+p_paragrafo <- plot_espectro_sentimento(
+  dados_proporcoes,
+  nivel_sel = "paragrafo",
+  titulo = ""
+)
+
+print(p_paragrafo)
+
+p_palavra <- plot_espectro_sentimento(
+  dados_proporcoes,
+  nivel_sel = "palavra",
+  titulo = ""
+)
+
+print(p_palavra)
+
+# ==============================================================================
+# USAR A OPÇÃO DE FUNÇÃO ABAIXO POIS REMOVE A POLUIÇÃO VISUAL
+# ==============================================================================
+
+plot_espectro_sentimento2 <- function(
+    df,
+    nivel_sel,
+    titulo = NULL
+) {
+  
+  dados_plot <- df %>%
+    filter(nivel_corpus == nivel_sel) %>%
+    mutate(
+      espectro_f = factor(espectro, levels = sort(unique(espectro)))
+    ) %>%
+    arrange(espectro)
+  
+  ggplot(dados_plot, aes(
+    x = proporcao * 100,
+    y = tipo,
+    fill = espectro_f
+  )) +
+    geom_bar(
+      stat = "identity",
+      width = 0.65
+    ) +
+    geom_text(
+      aes(
+        label = ifelse(proporcao * 100 >= 5,
+                       paste0(round(proporcao * 100, 1), "%"),
+                       "")
+      ),
+      position = position_stack(vjust = 0.5),
+      color = "white",
+      size = 3,
+      fontface = "bold"
+    ) +
+    facet_wrap(~ documento, nrow = 1) +
+    scale_fill_viridis_d(
+      option = "cividis",
+      direction = -1,
+      name = "Espectro"
+    ) +
+    scale_x_continuous(
+      limits = c(0, 100),
+      expand = c(0, 0)
+    ) +
+    labs(
+      x = "Proporção (%)",
+      y = NULL,
+      title = titulo
+    ) +
+    theme_minimal(base_size = 13) +
+    theme(
+      panel.grid.major.y = element_blank(),
+      panel.grid.minor = element_blank(),
+      axis.ticks.y = element_blank(),
+      strip.text = element_text(face = "bold"),
+      legend.position = "bottom"
+    )
+}
+
+p_paragrafo2 <- plot_espectro_sentimento2(
+  dados_proporcoes,
+  nivel_sel = "paragrafo",
+  titulo = ""
+)
+
+print(p_paragrafo2)
+
+espectro <- p_paragrafo2 +
+  theme(text = element_text(family = "Helvetica"))
+print(espectro)
+
+ggsave(
+  filename = "C:/Users/ryall/Desktop/R/transversalidade/wanda/index/plots/espectro.png",
+  plot = espectro,
+  dpi = 800,
+  width = 18,
+  height = 10,
+  units = "cm",
+  type = "cairo"
 )
 
 
-# ==============================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 plot_proporcao_tipo <- function(df, var_cat, titulo = NULL) {
