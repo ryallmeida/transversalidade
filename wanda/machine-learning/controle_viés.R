@@ -203,6 +203,7 @@ corpus_loa$documento <- "LOA"
 
 vars_keep <- c(
   "texto_limpo",
+  "ano",
   "label_final",
   "espectro_tipo2",
   "espectro_tipo3",
@@ -237,32 +238,7 @@ prop.table(table(corpus_unificado$documento))
 
 (0.6437210 + 0.38406222 + 0.419221890 )/3
 
-resumo <- corpus_unificado %>%
-  mutate(
-    soma_vars    = label_final + espectro_tipo2 + espectro_tipo3,
-    media_vars   = rowMeans(across(c(label_final + espectro_tipo2 + espectro_tipo3)), na.rm = TRUE),
-    mediana_vars = apply(select(., label_final + espectro_tipo2 + espectro_tipo3), 1, median, na.rm = TRUE),
-    desvio_vars  = apply(select(., label_final + espectro_tipo2 + espectro_tipo3), 1, sd, na.rm = TRUE)
-  )
-
-corpus_unificado$label_final
-
-resumo <- corpus_unificado %>%
-  mutate(
-    soma_vars  = label_final + espectro_tipo2 + espectro_tipo3,
-    media_vars = (label_final + espectro_tipo2 + espectro_tipo3) / 3,
-    mediana_vars = pmax(
-      pmin(label_final + espectro_tipo2 + espectro_tipo3),
-      pmin(pmax(label_final, espectro_tipo2), pmax(label_final, espectro_tipo3), pmax(espectro_tipo2, espectro_tipo3))
-    ),
-    desvio_vars = sqrt(
-      ((label_final - media_vars)^2 +
-         (espectro_tipo2 - media_vars)^2 +
-         (espectro_tipo3 - media_vars)^2) / 2
-    )
-  )
-
-n_min <- resumo %>%
+  n_min <- resumo %>%
   count(mediana_vars) %>%
   summarise(min_n = min(n)) %>%
   pull(min_n)
