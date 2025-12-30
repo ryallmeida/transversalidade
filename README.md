@@ -57,9 +57,29 @@ No entanto, a simples existência de múltiplos níveis de autoridade não garan
 
 # COMO CITAR ESSE TRABALHO?
 
-*Em desenvolvimento...*
+Pires, R. (2025). Scripts de replicação para Evidências sobre o uso de Processamento de Linguagem Natural e Machine Learning como ferramenta diagnóstica à transversalidade em Pernambuco. [Repositório código-fonte]. GitHub.  https://github.com/ryallmeida/transversalidade
 
 # REFERÊNCIAS 
+
+Benoit K, Watanabe K, Wang H, Nulty P, Obeng A, Müller S, Matsuo A (2018). “quanteda: Um pacote R para a análise quantitativa de dados textuais.” Journal of Open Source Software , 3 (30), 774. doi:10.21105/joss.00774 , https://quanteda.io 
+
+Harris, C.R., Millman, K.J., van der Walt, S.J. et al. Array programming with NumPy. Nature 585, 357–362 (2020). DOI: 10.1038/s41586-020-2649-2.
+
+Ooms J (2025). pdftools: Extração de texto, renderização e conversão de 	documentos PDF . Pacote R versão 3.7.0, https://ropensci.r-universe.dev/pdftools .
+
+Pedregosa, F., Varoquaux, G., Gramfort, A., Michel, V., Thirion, B., Grisel, O., Blondel, M., Prettenhofer, P., Weiss, R., Dubourg, V., Vanderplas, J., Passos, A., Cournapeau, D., Brucher, M., 
+
+Perrot, M., & Duchesnay, É. (2011). Scikit-learn: Machine learning in Python. Journal of Machine Learning Research, 12, 2825–2830.
+
+Silge J, Robinson D (2016). “tidytext: Mineração e análise de texto usando princípios de dados organizados em R.” JOSS , 1 (3). doi:10.21105/joss.00037 , http://dx.doi.org/10.21105/joss.00037 .
+
+Simon Garnier, Noam Ross, Robert Rudis, Antônio P. Camargo, Marco Sciaini e Cédric Scherer (2024). viridis (Lite) - Mapas de cores compatíveis com daltônicos para o pacote R. viridis versão 0.6.5.
+
+The pandas development team. (2020). pandas-dev/pandas: Pandas (Version 2.3.3) [Software]. Zenodo. https://doi.org/10.5281/zenodo.3509134
+
+Wickham, H., Pedersen, T. L., Seidel, D., & Posit Software, PBC. (2025). scales: Scale functions for visualization (Version 1.4.0) [Computer software]. https://doi.org/10.32614/CRAN.package.scales
+
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D. A., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., Takahashi, K., Vaughan, D., Wilke, C., Woo, K., & Yutani, H. (2019). Welcome to the tidyverse. Journal of Open Source Software, 4(43), 1686. https://doi.org/10.21105/joss.01686
 
 R DEVELOPMENT CORE TEAM. R: Uma linguagem e ambiente para computação estatística . 
 Viena: R Foundation for Statistical Computing, 2011. ISBN 3-900051-07-0. 
